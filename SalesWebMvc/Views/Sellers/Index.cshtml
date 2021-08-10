@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SalesWebMvc.Models.Seller>
+﻿@model IEnumerable<Seller>
 
 
 @{
@@ -7,6 +7,7 @@
 
 <h2>@ViewData["Title"]</h2>
 <p>Sellers index page</p>
+<a asp-action="Create" class="btn btn-secondary mb-2">Create New</a>
 
 <table class="table table-hover table-striped">
     <thead>
@@ -24,7 +25,6 @@
                 @Html.DisplayNameFor(model => model.BaseSalary)
             </th>
             <th></th>
-
         </tr>
     </thead>
     <tbody>
