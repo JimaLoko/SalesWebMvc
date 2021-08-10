@@ -25,10 +25,24 @@ namespace SalesWebMvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Replace with your connection string.
+            var connectionString = "server=localhost;user=root;password=root;database=saleswebmvcdb";
+            services.AddAuthorization();
             services.AddControllersWithViews();
 
-            services.AddDbContext<SalesWebMvcContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SalesWebMvcContext")));
+            // Replace with your server version and type.
+            // Use 'MariaDbServerVersion' for MariaDB.
+            // Alternatively, use 'ServerVersion.AutoDetect(connectionString)'.
+            // For common usages, see pull request #1233.
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 25));
+
+            // Replace 'YourDbContext' with the name of your own DbContext derived class.
+            services.AddDbContext<SalesWebMvcContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(connectionString, serverVersion)
+                    .EnableSensitiveDataLogging() // <-- These two calls are optional but help
+                    .EnableDetailedErrors()       // <-- with debugging (remove for production).
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
